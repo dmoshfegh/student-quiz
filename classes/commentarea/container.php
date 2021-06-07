@@ -520,7 +520,7 @@ class container {
      * @param array $comments
      */
     public function set_user_list($comments) {
-        global $DB;
+        global $CFG, $DB;
         $userids = [];
         foreach ($comments as $comment) {
             if (!in_array($comment->userid, $userids)) {
@@ -533,7 +533,12 @@ class container {
         // Retrieve users from db.
         if (!empty($userids)) {
             list($idsql, $params) = $DB->get_in_or_equal($userids);
-            $fields = get_all_user_name_fields(true);
+            // Adding the standard "intro" and "introformat" fields.
+            if ($CFG->branch >= 311) {
+                $fields = implode(',', \core_user\fields::get_name_fields());
+            } else {
+                $fields = get_all_user_name_fields(true);
+            }
             $query = "SELECT id, $fields
                         FROM {user}
                        WHERE id $idsql";

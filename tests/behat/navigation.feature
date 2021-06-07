@@ -20,9 +20,7 @@ Feature: Navigation to the pages
     And the following "questions" exist:
       | questioncategory          | qtype | name          | questiontext                  |
       | Default for StudentQuiz 1 | essay | Test question | Write about whatever you want |
-    And I log in as "teacher1"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz 1"
+    And I am on the "StudentQuiz 1" "mod_studentquiz > View" page logged in as "teacher1"
 
   Scenario: See the main page
     When I navigate to "StudentQuiz" in current page administration
@@ -39,23 +37,23 @@ Feature: Navigation to the pages
   Scenario: See the statistics page
     When I navigate to "Statistics" in current page administration
     Then I should see "Personal Statistics"
-    Then I should see "Community Statistics"
-    Then I should see "Personal Progress"
+    And I should see "Community Statistics"
+    And I should see "Personal Progress"
 
   Scenario: See the ranking page
     When I navigate to "Ranking" in current page administration
     Then I should see "Published question factor"
-    Then I should see "Latest correct answer factor"
-    Then I should see "Total Points"
-    Then I should see "Personal progress"
+    And I should see "Latest correct answer factor"
+    And I should see "Total Points"
+    And I should see "Personal progress"
 
   Scenario: See the questionbank
     When I navigate to "Question bank" in current page administration
     Then I should see "Questions"
-    Then I should see "Categories"
-    Then I should see "Import"
-    Then I should see "Export"
-    Then I should see "Select a category:"
+    And I should see "Categories"
+    And I should see "Import"
+    And I should see "Export"
+    And I should see "Select a category:"
 
   Scenario: Check that the More link exist in My Progress and Ranking block
     When I navigate to "StudentQuiz" in current page administration

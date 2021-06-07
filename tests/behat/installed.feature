@@ -6,7 +6,7 @@ Feature: Installation succeeds
 
   Scenario: Check the Plugins overview for the name of this plugin
     Given I log in as "admin"
-    And I navigate to "Plugins overview" in site administration
+    When I navigate to "Plugins overview" in site administration
     Then the following should exist in the "plugins-control-panel" table:
-        |Plugin name|
-        |mod_studentquiz|
+      | Plugin name     |
+      | mod_studentquiz |

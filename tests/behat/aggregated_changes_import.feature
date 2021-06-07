@@ -26,9 +26,7 @@ Feature: Restore of studentquizzes in moodle exports contain question answers
     And I upload "mod/studentquiz/tests/fixtures/<file>" file to "Files" filemanager
     And I press "Save changes"
     And I restore "<file>" backup into a new course using this options:
-    And I am on "<course>" course homepage
-    And I follow "<studentquiz>"
-    When I navigate to "Ranking" in current page administration
+    And I am on the "<studentquiz>" "mod_studentquiz > Ranking" page
     Then "1" row "Points for latest correct attemps" column of "rankingtable" table should contain "<pos_1_correct_answered_points>"
     And "1" row "Total Points" column of "rankingtable" table should contain "<pos_1_total_points>"
     And "2" row "Points for latest correct attemps" column of "rankingtable" table should contain "<pos_2_correct_answered_points>"

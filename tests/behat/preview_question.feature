@@ -25,10 +25,8 @@ Feature: Preview a question as a student
   # For faster processing these scenarios are concatenated, as $_switch_window seems to do a behat site reset
   @javascript @_switch_window
   Scenario: Question preview shows the question, can be answered and commented
-    Given I log in as "admin"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz 1"
-    When I click on "Preview" "link" in the "Test question to be previewed" "table_row"
+    When I am on the "StudentQuiz 1" "mod_studentquiz > View" page logged in as "admin"
+    And I click on "Preview" "link" in the "Test question to be previewed" "table_row"
     And I switch to "questionpreview" window
     Then the state of "What is pi to two d.p.?" question is shown as "Not complete"
     #Then "Rate" "field" should exist
@@ -38,17 +36,17 @@ Feature: Preview a question as a student
     #And I should see "Add comment" in the ".comments p" "css_element"
     #And ".comments" "css_element" should exist
     And I should see "No comments"
-    Then I set the field "Answer:" to "3.14"
+    And I set the field "Answer:" to "3.14"
     And I press "Check"
     And I wait until the page is ready
-    Then the state of "What is pi to two d.p.?" question is shown as "Correct"
+    And the state of "What is pi to two d.p.?" question is shown as "Correct"
     And ".rateable[data-rate='4']" "css_element" should exist
     And I click on ".rateable[data-rate='4']" "css_element"
     And ".star[data-rate='4']" "css_element" should exist
     And ".star-empty[data-rate='4']" "css_element" should not exist
     And ".star[data-rate='5']" "css_element" should not exist
     And ".star-empty[data-rate='5']" "css_element" should exist
-    Then I enter the text "Very good question" into the "Add comment" editor
+    And I enter the text "Very good question" into the "Add comment" editor
     And I press "Add comment"
     And I wait until the page is ready
     And I should see "Very good question"
@@ -56,21 +54,18 @@ Feature: Preview a question as a student
     And I should see "Delete" in the ".studentquiz-comment-item:nth-child(1) .studentquiz-comment-commands-box" "css_element"
     And I should see "1 of 1"
     # Try to delete comment.
-    Then I click on "Delete" "button" in the ".studentquiz-comment-item:nth-child(1) .studentquiz-comment-commands-box" "css_element"
+    And I click on "Delete" "button" in the ".studentquiz-comment-item:nth-child(1) .studentquiz-comment-commands-box" "css_element"
     And I click on "[title='Delete comment']" "css_element" in the ".modal.show" "css_element"
     And I wait until the page is ready
     # Check comment is render as deleted and global count updated.
-    Then I should see "Deleted post" in the ".studentquiz-comment-item:nth-child(1) .studentquiz-comment-item-outerbox" "css_element"
+    And I should see "Deleted post" in the ".studentquiz-comment-item:nth-child(1) .studentquiz-comment-item-outerbox" "css_element"
     And I should see "0 of 0"
 
   @javascript @_switch_window
   Scenario: Student post new question, and he/she can not see comment or rating box on new's one
-    Given I log in as "student1"
-    # Log in to course 1.
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz 1"
+    When I am on the "StudentQuiz 1" "mod_studentquiz > View" page logged in as "student1"
     # Create owned question by student role.
-    When I should see "Create new question"
+    Then I should see "Create new question"
     And I click on "Create new question" "button"
     And I set the field "item_qtype_truefalse" to "1"
     And I click on "Add" "button" in the "Choose a question type to add" "dialogue"
@@ -79,7 +74,7 @@ Feature: Preview a question as a student
     And I set the field "Question text" to "The correct answer is true"
     And I press "id_submitbutton"
     # Turn back and click to Preview link to validate role.
-    Then I click on "Preview" "link" in the "Example question 1" "table_row"
+    And I click on "Preview" "link" in the "Example question 1" "table_row"
     And I switch to "questionpreview" window
     And I should not see "Rate"
     And I should not see "Add comment"
@@ -87,22 +82,19 @@ Feature: Preview a question as a student
 
   @javascript @_switch_window
   Scenario: User with higher student's role post new question, and he/she can comment or rating on new's one
-    Given I log in as "admin"
-    # Log in to course 1.
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz 1"
+    When I am on the "StudentQuiz 1" "mod_studentquiz > View" page logged in as "admin"
     # Create owned question by student role.
     And I click on "Create new question" "button"
     And I set the field "item_qtype_truefalse" to "1"
     And I click on "Add" "button" in the "Choose a question type to add" "dialogue"
-    And I should see "Adding a True/False question"
+    Then I should see "Adding a True/False question"
     And I set the field "Question name" to "Example question 2"
     And I set the field "Question text" to "The correct answer is true"
     And I press "id_submitbutton"
     # Turn back and click to Preview link to validate role.
-    When I click on "Preview" "link" in the "Example question 2" "table_row"
+    And I click on "Preview" "link" in the "Example question 2" "table_row"
     And I switch to "questionpreview" window
-    Then ".rate" "css_element" should exist
+    And ".rate" "css_element" should exist
     And "Add comment" "field" should exist
     And I enter the text "Comment test" into the "Add comment" editor
     And I press "Add comment"

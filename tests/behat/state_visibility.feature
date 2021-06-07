@@ -23,17 +23,14 @@ Feature: Question states and visibility
 
   @javascript
   Scenario: Test Publish new questions setting
-    Given I log in as "student1"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 1"
+    When I am on the "StudentQuiz Test 1" "mod_studentquiz > View" page logged in as "student1"
     And I click on "Create new question" "button"
     And I set the field "item_qtype_truefalse" to "1"
     And I click on "Add" "button" in the "Choose a question type to add" "dialogue"
     And I set the field "Question name" to "TF 01"
     And I set the field "Question text" to "The correct answer is false"
     And I press "id_submitbutton"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 2"
+    And I am on the "StudentQuiz Test 2" "mod_studentquiz > View" page
     And I click on "Create new question" "button"
     And I set the field "item_qtype_truefalse" to "1"
     And I click on "Add" "button" in the "Choose a question type to add" "dialogue"
@@ -41,27 +38,19 @@ Feature: Question states and visibility
     And I set the field "Question text" to "The correct answer is false"
     And I press "id_submitbutton"
     And I log out
-    And I log in as "student2"
-    And I am on "Course 1" course homepage
-    When I follow "StudentQuiz Test 1"
+    And I am on the "StudentQuiz Test 1" "mod_studentquiz > View" page logged in as "student2"
     Then I should not see "TF 01"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 2"
+    And I am on the "StudentQuiz Test 2" "mod_studentquiz > View" page
     And I should see "TF 01"
     And I log out
-    And I log in as "admin"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 1"
+    And I am on the "StudentQuiz Test 1" "mod_studentquiz > View" page logged in as "admin"
     And I should see "TF 01"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 2"
+    And I am on the "StudentQuiz Test 2" "mod_studentquiz > View" page
     And I should see "TF 01"
 
   @javascript @_switch_window
   Scenario: Test filter
-    Given I log in as "student1"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 2"
+    When I am on the "StudentQuiz Test 2" "mod_studentquiz > View" page logged in as "student1"
 
     And I click on "Create new question" "button"
     And I set the field "item_qtype_truefalse" to "1"
@@ -92,9 +81,7 @@ Feature: Question states and visibility
     And I press "id_submitbutton"
 
     And I log out
-    And I log in as "admin"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 2"
+    And I am on the "StudentQuiz Test 2" "mod_studentquiz > View" page logged in as "admin"
 
     And I click on "Preview" "link" in the "TF 01" "table_row"
     And I switch to "questionpreview" window
@@ -115,7 +102,7 @@ Feature: Question states and visibility
     And I switch to the main window
 
     And I click on "//a[text() = 'New']" "xpath_element"
-    When I press "id_submitbutton"
+    And I press "id_submitbutton"
     Then I should see "TF 04"
     And I should not see "TF 01"
     And I should not see "TF 02"
@@ -148,9 +135,7 @@ Feature: Question states and visibility
 
   @javascript
   Scenario: Hide question
-    Given I log in as "admin"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 1"
+    When I am on the "StudentQuiz Test 1" "mod_studentquiz > View" page logged in as "admin"
     And I click on "Create new question" "button"
     And I set the field "item_qtype_truefalse" to "1"
     And I click on "Add" "button" in the "Choose a question type to add" "dialogue"
@@ -158,27 +143,19 @@ Feature: Question states and visibility
     And I set the field "Question text" to "The correct answer is false"
     And I press "id_submitbutton"
     And I log out
-    And I log in as "student1"
-    And I am on "Course 1" course homepage
-    When I follow "StudentQuiz Test 1"
+    And I am on the "StudentQuiz Test 1" "mod_studentquiz > View" page logged in as "student1"
     Then I should not see "TF 01"
     And I log out
-    And I log in as "admin"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 1"
+    And I am on the "StudentQuiz Test 1" "mod_studentquiz > View" page logged in as "admin"
     And I click on "Show" "link" in the "TF 01" "table_row"
     And I log out
-    And I log in as "student1"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 1"
+    And I am on the "StudentQuiz Test 1" "mod_studentquiz > View" page logged in as "student1"
     And I should see "TF 01"
     And "Hide" "link" should not exist in the "TF 01" "table_row"
 
   @javascript @_switch_window
   Scenario: Test Studentquiz cannot edit approved/disapproved question
-    Given I log in as "student1"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 2"
+    When I am on the "StudentQuiz Test 2" "mod_studentquiz > View" page logged in as "student1"
 
     And I click on "Create new question" "button"
     And I set the field "item_qtype_truefalse" to "1"
@@ -194,13 +171,11 @@ Feature: Question states and visibility
     And I set the field "Question text" to "The correct answer is false"
     And I press "id_submitbutton"
 
-    And "Edit" "link" should exist in the "TF 01" "table_row"
+    Then "Edit" "link" should exist in the "TF 01" "table_row"
     And "Edit" "link" should exist in the "TF 02" "table_row"
 
     And I log out
-    Given I log in as "admin"
-    And I am on "Course 1" course homepage
-    And I follow "StudentQuiz Test 2"
+    And I am on the "StudentQuiz Test 2" "mod_studentquiz > View" page logged in as "admin"
     And I click on "Preview" "link" in the "TF 01" "table_row"
     And I switch to "questionpreview" window
     And I set the field "statetype" to "Approved"
@@ -214,9 +189,7 @@ Feature: Question states and visibility
     And I switch to the main window
 
     And I log out
-    And I log in as "student1"
-    And I am on "Course 1" course homepage
-    When I follow "StudentQuiz Test 2"
+    And I am on the "StudentQuiz Test 2" "mod_studentquiz > View" page logged in as "student1"
 
     And "Edit" "link" should not exist in the "TF 01" "table_row"
     And "Edit" "link" should not exist in the "TF 02" "table_row"

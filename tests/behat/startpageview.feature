@@ -22,12 +22,10 @@ Feature: View comprehensive information about this studentquiz activity
     And the following "questions" exist:
       | questioncategory          | qtype | name                       | questiontext                  |
       | Default for StudentQuiz 1 | essay | Test question to be copied | Write about whatever you want |
-    And I log in as "student1"
 
   @javascript
   Scenario: Check if the default filter settings are visible
-    When I am on "Course 1" course homepage
-    And I follow "StudentQuiz 1"
+    When I am on the "StudentQuiz 1" "mod_studentquiz > View" page logged in as "student1"
     And I wait until the page is ready
     Then "Filter" "fieldset" should be visible
     And I should see "Fast filter for questions"

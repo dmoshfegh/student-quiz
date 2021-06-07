@@ -110,4 +110,80 @@ class behat_mod_studentquiz extends behat_base {
         $this->getSession()->executeScript($js);
     }
 
+    /**
+     * Convert page names to URLs for steps like 'When I am on the "[page name]" page'.
+     *
+     * Recognised page names are:
+     * | None so far!      |                                                              |
+     *
+     * @param string $page name of the page, with the component name removed e.g. 'Admin notification'.
+     * @return moodle_url the corresponding URL.
+     * @throws Exception with a meaningful error message if the specified page cannot be found.
+     */
+    protected function resolve_page_url(string $page): moodle_url {
+        switch ($page) {
+            default:
+                throw new Exception('Unrecognised studentquiz page type "' . $page . '."');
+        }
+    }
+
+    /**
+     * Convert page names to URLs for steps like 'When I am on the "[identifier]" "[page type]" page'.
+     *
+     * Recognised page names are:
+     * | pagetype          | name meaning                                | description                                  |
+     * | View              | Student Quiz name                           | The student quiz info page (view.php)        |
+     * | Edit              | Student Quiz name                           | The edit quiz page (edit.php)                |
+     * | Statistics        | Student Quiz name                           | The Statistics report page                   |
+     * | Ranking           | Student Quiz name                           | The Ranking page                             |
+     *
+     * @param string $type identifies which type of page this is, e.g. 'View'.
+     * @param string $identifier identifies the particular page, e.g. 'Test student quiz'.
+     * @return moodle_url the corresponding URL.
+     * @throws Exception with a meaningful error message if the specified page cannot be found.
+     */
+    protected function resolve_page_instance_url(string $type, string $identifier): moodle_url {
+        switch ($type) {
+            case 'View':
+                return new moodle_url('/mod/studentquiz/view.php',
+                                      ['id' => $this->get_cm_by_studentquiz_name($identifier)->id]);
+
+            case 'Edit':
+                return new moodle_url('/course/modedit.php',
+                                      ['update' => $this->get_cm_by_studentquiz_name($identifier)->id]);
+
+            case 'Statistics':
+                return new moodle_url('/mod/studentquiz/reportstat.php',
+                                      ['id' => $this->get_cm_by_studentquiz_name($identifier)->id]);
+
+            case 'Ranking':
+                return new moodle_url('/mod/studentquiz/reportrank.php',
+                                      ['id' => $this->get_cm_by_studentquiz_name($identifier)->id]);
+
+            default:
+                throw new Exception('Unrecognised studentquiz page type "' . $type . '."');
+        }
+    }
+
+    /**
+     * Get a studentquiz by name.
+     *
+     * @param string $name studentquiz name.
+     * @return stdClass the corresponding DB row.
+     */
+    protected function get_studentquiz_by_name(string $name): stdClass {
+        global $DB;
+        return $DB->get_record('studentquiz', array('name' => $name), '*', MUST_EXIST);
+    }
+
+    /**
+     * Get cmid from the studentquiz name.
+     *
+     * @param string $name studentquiz name.
+     * @return stdClass cm from get_coursemodule_from_instance.
+     */
+    protected function get_cm_by_studentquiz_name(string $name): stdClass {
+        $studentquiz = $this->get_studentquiz_by_name($name);
+        return get_coursemodule_from_instance('studentquiz', $studentquiz->id, $studentquiz->course);
+    }
 }

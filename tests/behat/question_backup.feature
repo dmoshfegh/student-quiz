@@ -19,17 +19,15 @@ Feature: Backup and restore of studentquizzes
     And the following "activities" exist:
       | activity    | name          | intro              | course | idnumber        |
       | studentquiz | StudentQuiz 1 | Quiz 1 description | C1     | studentquiz1    |
-    And I log in as "teacher1"
 
   @javascript @_file_upload
   Scenario: Restore a Studentquiz 2.0.3 xml backup
-    When I am on "Course 1" course homepage
-    And I follow "StudentQuiz 1"
+    When I am on the "StudentQuiz 1" "mod_studentquiz > View" page logged in as "teacher1"
     And I navigate to "Import" in current page administration
     #And I set the field "format" to "xml" #seems not to work, thus workaround:
     And I click on "#id_format_xml" "css_element"
     And I upload "mod/studentquiz/tests/fixtures/studentquiz-export-v2.0.3.xml" file to "Import" filemanager
     #The "Import" button is not the only clickable item with a text beginning with "Import", so need to specify exactly
     And I click on "#id_submitbutton" "css_element"
-    Then I wait until the page is ready
-    And I should see "Importing 11 questions from file"
+    And I wait until the page is ready
+    Then I should see "Importing 11 questions from file"
